@@ -54,7 +54,7 @@ num_players = 0
 play_monopoly = True
 monopoly_unit_test = 6 # assume 1 player, 2 owned properties. See monopoly.py unittest for more options
 messages = []
-DEBT_OK = False
+debt = False
 
 def add_to_output_area(output_type: str, text: str, color: str = COLORS.WHITE) -> None:
     """
@@ -370,8 +370,7 @@ def handle_data(data: str, client: socket.socket) -> None:
         handle_balance(data, client, mply, current_client.PlayerObject.cash, current_client.PlayerObject.properties)
 
     elif data.startswith('casino'):
-        handle_casino(data, client, change_balance, add_to_output_area, current_client.id, current_client.name, DEBT_OK)
-
+        handle_casino(data, client, change_balance, add_to_output_area, current_client.id, current_client.name,debt)
     elif data.startswith('attack'):
         #run the attack similar to casino on client side and send game to player attacked, then send resulting command back
         handle_attack(data, current_client, client)
@@ -761,8 +760,8 @@ if __name__ == "__main__":
     if "-silent" in sys.argv:
         ss.VERBOSE = False
 
-    if "-debtok" in sys.argv:
-        DEBT_OK = True
+    if "-debt" in sys.argv:
+        debt = true
 
     set_unittest() 
     # set_gamerules()
